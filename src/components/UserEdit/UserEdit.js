@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import './UserEdit.scss';
-import { getUsers } from '../../api/api';
+
 
 
 export const UserEdit = () => {
 
-  const [users,setUsers] = useState([]);
-
-  const data = async() => {
-    const responc = await getUsers();
-    await setUsers(responc.results);
-  }
-
-  useEffect(() => {
-    data();
-    console.log(users);
-  }, []);
-
   return (
     <div className='userEdit'>
-      <NavLink
+      <Link
           className='userEdit__link'
           to={'/'}
         >
@@ -29,7 +17,7 @@ export const UserEdit = () => {
           >
             {'< Back'}
           </button>
-      </NavLink>
+      </Link>
       <div className='userEdit__wrapper'>
         <div className='userEdit__left'>
           <img

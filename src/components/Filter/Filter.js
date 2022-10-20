@@ -1,5 +1,4 @@
-import React, { FC, useState } from 'react';
-import classNames from 'classnames';
+import React, { useState } from 'react';
 import './Filter.scss';
 
 export const Filter = () => {
@@ -7,7 +6,7 @@ export const Filter = () => {
   const [gender,setGender] = useState('Male');
   const [value,setValue] = useState(2);
 
-  const handleChange = (event: any) => {
+  const handleChange = (event) => {
     setValue(event.target.value);
     console.log(event)
   }

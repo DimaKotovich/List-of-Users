@@ -1,15 +1,11 @@
-import React, { FC, useState } from 'react';
+import React from 'react';
 import './UserCard.scss';
-import { NavLink, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-interface Props {
-  user: any
-}
-
-export const UserCard: FC<Props> = ({ user }) => {
+export const UserCard = ({ user }) => {
 
   const { userName } = useParams();
-  console.log(user.login.username);
+
   return (
     <div className='userBlock'>
       <img 
@@ -23,7 +19,7 @@ export const UserCard: FC<Props> = ({ user }) => {
         <span className='userBlock__info--location'>{`${user.location.city}, ${user.location.street.name} ${user.location.street.number}`}</span>
         <span className='userBlock__info--email'>{user.email}</span>
       </div>
-      <NavLink
+      <Link
           to={`/users/${user.login.username}`}
           className='userBlock__link'
         >
@@ -33,7 +29,7 @@ export const UserCard: FC<Props> = ({ user }) => {
         >
             Edit
         </button>
-      </NavLink>
+      </Link>
     </div>
   )
 }
