@@ -1,0 +1,24 @@
+.todoList {
+
+  &__title {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 40px;
+    color: #121212;
+    margin: 0 0 56px;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    margin-left: 24px;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+  }
+}

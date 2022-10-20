@@ -1,0 +1,94 @@
+.userBlock {
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  margin-bottom: 55px;
+  gap: 16px;
+
+  &__logo {
+    border-radius: 12px;
+    width: 85px;
+    height: 82px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &--name {
+      font-family: 'Work Sans';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 23px;
+      color: #121212;
+    }
+
+    &--date {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 18px;
+      color: #999999;
+    }
+
+    &--location {
+      width: 271px;
+      height: 15px;
+      font-family: 'Work Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 15px;
+      color: #121212;
+    }
+
+    &--email {
+      font-family: 'Work Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 15px;
+      color: #121212;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+
+  &__button {
+    margin-top: 34px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 10px;
+
+    width: 141px;
+    height: 48px;
+
+    background: #52228C;
+    border-radius: 12px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    border: 0px;
+    border-color: #52228C;
+    transition: all 0.3s;
+    text-decoration: none;
+
+    &:hover {
+      background: #FFFFFF;
+      color: #52228C;
+      border: 1px solid #52228C;
+    }
+  }
+}
