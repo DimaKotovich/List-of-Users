@@ -21,4 +21,32 @@
     list-style: none;
     margin: 0;
   }
+
+  &__pagination {
+    display: flex;
+    justify-content: space-between;
+
+    &--select {
+      box-sizing: border-box;
+
+      width: 80px;
+      
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 14px;
+      gap: 10px;
+
+      background: #FFFFFF;
+      border: 1px solid #121212;
+      border-radius: 12px;
+
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #121212;
+    }
+  }
 }

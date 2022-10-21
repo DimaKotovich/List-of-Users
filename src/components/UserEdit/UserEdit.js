@@ -1,10 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './UserEdit.scss';
+import { useDispatch,useSelector } from 'react-redux';
 
 
 
 export const UserEdit = () => {
+
+  const dispatch = useDispatch();
+
+  const user = useSelector(
+    state => state.users.currentUsers
+  );
+
+  const monthString = useSelector(
+    state => state.users.month
+  );
+
+  const year = user.dob.date.slice(0,4);
+  const month = user.dob.date.slice(5,7)
+  const day = user.dob.date.slice(8,10);
+
+  console.log(user);
 
   return (
     <div className='userEdit'>
@@ -21,12 +38,12 @@ export const UserEdit = () => {
       <div className='userEdit__wrapper'>
         <div className='userEdit__left'>
           <img
-            src="https://randomuser.me/api/portraits/women/66.jpg"
+            src={user.picture.large}
             alt="UserLogo"
             className='userEdit__left--image'
           />
-          <span className='userEdit__left--name'>John Doe</span>
-          <span className='userEdit__left--date'>15 Oktober 1990</span>
+          <span className='userEdit__left--name'>{`${user.name.first} ${user.name.last}`}</span>
+          <span className='userEdit__left--date'>{`${day} ${monthString[month]} ${year}`}</span>
           <button
               className='userEdit__left--button'
             >
@@ -39,7 +56,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='John Doel'
+              placeholder={`${user.name.first} ${user.name.last}`}
             />
             <button
               className='userEdit__block--button'
@@ -52,7 +69,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='john@doe.com'
+              placeholder={user.email}
             />
             <button
               className='userEdit__block--button'
@@ -65,7 +82,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='+3809999999999'
+              placeholder={user.phone}
             />
             <button
               className='userEdit__block--button'
@@ -78,7 +95,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='Kyiv'
+              placeholder={user.location.city}
             />
             <button
               className='userEdit__block--button'
@@ -91,7 +108,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='khreschatyk 123'
+              placeholder={`${user.location.street.name} ${user.location.street.number}`}
             />
             <button
               className='userEdit__block--button'
@@ -104,7 +121,7 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder='10.10.1990'
+              placeholder={`${day}.${month}.${year}`}
             />
             <button
               className='userEdit__block--button'

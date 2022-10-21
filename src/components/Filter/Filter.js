@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import './Filter.scss';
+import { useDispatch,useSelector } from 'react-redux';
+import { filterGender } from '../../api/api';
 
 export const Filter = () => {
 
-  const [gender,setGender] = useState('Male');
+  const [gender,setGender] = useState();
   const [value,setValue] = useState(2);
+
+  const dispatch = useDispatch();
+
+  const users = useSelector(
+    state => state.users.users
+  );
 
   const handleChange = (event) => {
     setValue(event.target.value);
     console.log(event)
   }
+
 
   return (
     <div className='filter'>
@@ -46,12 +55,12 @@ export const Filter = () => {
           <div className='buttons'>
             <button
               className={gender === 'Male' ? 'buttons__active' : 'buttons__nonActive'}
-              onClick={(() => { setGender('Male'); })}>
+              onClick={(() => {dispatch(filterGender('Male')); setGender('Male'); })}>
                 Male
             </button>
             <button 
               className={gender === 'Female' ? 'buttons__active' : 'buttons__nonActive'}
-              onClick={(() => { setGender('Female'); })}>
+              onClick={(() => {dispatch(filterGender('Female')); setGender('Female'); })}>
                 Female
             </button>
           </div>
