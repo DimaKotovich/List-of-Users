@@ -1,4 +1,4 @@
-# REACT-WEATHER
+# List-of-Users REACT
 
 [DEMO](https://dimakotovich.github.io/List-of-Users/)
 
