@@ -1,8 +1,9 @@
 import React from 'react';
 import './TodoList.scss';
 import { UserCard } from '../UserCard/UserCard';
+import { Pagination } from '../Pagination/Pagination';
 import { useDispatch,useSelector } from 'react-redux';
-import { changeUserList } from '../../api/api';
+import { changeUserList, paginate } from '../../Redux/redux';
 
 export const TodoList = () => {
 
@@ -11,11 +12,13 @@ export const TodoList = () => {
   const users = useSelector(
     state => state.users.users
   );
-  console.log(users);
+  const sortBy = useSelector(
+    state => state.users.sortBy
+  );
 
   const handleChange = (event) => {
-    console.log(event.target.value)
     dispatch(changeUserList(event.target.value));
+    dispatch(paginate());
   } 
   return (
     <div className='todoList'>
@@ -23,7 +26,7 @@ export const TodoList = () => {
       <div className='todoList__wrapper'>
         <ul className='todoList__list'>
           {users.map(user => (
-            <li key={user.phone}>
+            <li key={user.phone} className={sortBy === 'custom sort' ? 'todoList__list--cursor' : ''}>
               <UserCard
                 user={user}
               />
@@ -31,6 +34,7 @@ export const TodoList = () => {
           ))}
         </ul>
         <div className='todoList__pagination'>
+          <Pagination/>
           <select onChange={handleChange} className='todoList__pagination--select'>
             <option value="50">50</option>
             <option value="10">10</option>

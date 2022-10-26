@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import './UserEdit.scss';
 import { useDispatch,useSelector } from 'react-redux';
+import { deleteUser, changeName, changeEmail,changePhone } from '../../Redux/redux';
+import { editUser, changeCity, changeLocation,changeDate } from '../../Redux/redux';
 
 
 
 export const UserEdit = () => {
+
+  const [edit,setEdit] = useState({
+    name:'',
+    email:'',
+    phone:'',
+    city:'',
+    location:'',
+    date:''
+  });
 
   const dispatch = useDispatch();
 
@@ -17,11 +29,13 @@ export const UserEdit = () => {
     state => state.users.month
   );
 
-  const year = user.dob.date.slice(0,4);
-  const month = user.dob.date.slice(5,7)
-  const day = user.dob.date.slice(8,10);
+  const errorDate = useSelector(
+    state => state.users.errorDate
+  );
 
-  console.log(user);
+  const day = user.newDate.slice(0,2);
+  const month = user.newDate.slice(3,5);
+  const year = user.newDate.slice(6,10);
 
   return (
     <div className='userEdit'>
@@ -31,6 +45,7 @@ export const UserEdit = () => {
         >
           <button
             className='userEdit__button'
+            onClick={() => {dispatch(editUser())}}
           >
             {'< Back'}
           </button>
@@ -42,13 +57,19 @@ export const UserEdit = () => {
             alt="UserLogo"
             className='userEdit__left--image'
           />
-          <span className='userEdit__left--name'>{`${user.name.first} ${user.name.last}`}</span>
+          <span className='userEdit__left--name'>{user.newName}</span>
           <span className='userEdit__left--date'>{`${day} ${monthString[month]} ${year}`}</span>
-          <button
-              className='userEdit__left--button'
-            >
-              Delete
-            </button>
+          <Link
+            className='userEdit__link'
+            to={'/'}
+          >
+            <button
+                className='userEdit__left--button'
+                onClick={() => {dispatch(deleteUser(user.login.username))}}
+              >
+                Delete
+              </button>
+          </Link>
         </div>
 
         <div className='userEdit__right'>
@@ -56,38 +77,65 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder={`${user.name.first} ${user.name.last}`}
+              onChange={(event) => setEdit(state => ({ ...state, name: event.target.value }))}
+              value={edit.name.trim().length > 0 ? edit.name : ''}
+              placeholder={user.newName}
             />
             <button
-              className='userEdit__block--button'
-            >
-              Edit
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.name.trim().length > 0 }
+              )}
+              disabled={edit.name.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changeName(edit.name.trim()));
+                setEdit(state => ({ ...state, name: '' }))}}
+              >
+              {edit.name.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
-
+          
           <div className='userEdit__block'>
             <input
               className='userEdit__block--input'
               type="text"
+              onChange={(event) => setEdit(state => ({ ...state, email: event.target.value }))}
+              value={edit.email.trim().length > 0 ? edit.email : ''}
               placeholder={user.email}
             />
             <button
-              className='userEdit__block--button'
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.email.trim().length > 0 }
+              )}
+              disabled={edit.email.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changeEmail(edit.email.trim()));
+                setEdit(state => ({ ...state, email: '' }))}}
             >
-              Edit
+              {edit.email.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
-
+              
           <div className='userEdit__block'>
             <input
               className='userEdit__block--input'
               type="text"
+              onChange={(event) => setEdit(state => ({ ...state, phone: event.target.value }))}
+              value={edit.phone.trim().length > 0 ? edit.phone : ''}
               placeholder={user.phone}
             />
             <button
-              className='userEdit__block--button'
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.phone.trim().length > 0 }
+              )}
+              disabled={edit.phone.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changePhone(edit.phone.trim()));
+                setEdit(state => ({ ...state, phone: '' }))}}
             >
-              Edit
+              {edit.phone.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
 
@@ -95,12 +143,21 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
+              onChange={(event) => setEdit(state => ({ ...state, city: event.target.value }))}
+              value={edit.city.trim().length > 0 ? edit.city : ''}
               placeholder={user.location.city}
             />
             <button
-              className='userEdit__block--button'
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.city.trim().length > 0 }
+              )}
+              disabled={edit.city.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changeCity(edit.city.trim()));
+                setEdit(state => ({ ...state, city: '' }))}}
             >
-              Edit
+              {edit.city.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
 
@@ -108,12 +165,21 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder={`${user.location.street.name} ${user.location.street.number}`}
+              onChange={(event) => setEdit(state => ({ ...state, location: event.target.value }))}
+              value={edit.location.trim().length > 0 ? edit.location : ''}
+              placeholder={user.street}
             />
             <button
-              className='userEdit__block--button'
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.location.trim().length > 0 }
+              )}
+              disabled={edit.location.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changeLocation(edit.location.trim()));
+                setEdit(state => ({ ...state, location: '' }))}}
             >
-              Edit
+              {edit.location.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
 
@@ -121,14 +187,25 @@ export const UserEdit = () => {
             <input
               className='userEdit__block--input'
               type="text"
-              placeholder={`${day}.${month}.${year}`}
+              onChange={(event) => setEdit(state => ({ ...state, date: event.target.value }))}
+              value={edit.date.trim().length > 0 ? edit.date : ''}
+              placeholder={user.newDate}
             />
             <button
-              className='userEdit__block--button'
+              className={classNames(
+                'userEdit__block--button',
+                { 'userEdit__block--active': edit.date.trim().length > 0 }
+              )}
+              disabled={edit.date.trim().length > 0 ? false : true}
+              onClick={() => {
+                dispatch(changeDate(edit.date.trim()));
+                setEdit(state => ({ ...state, date: '' }))}}
             >
-              Edit
+              {edit.date.trim().length > 0 ? 'Update' : 'Edit'}
             </button>
           </div>
+
+          {errorDate && <span>The date is incorrect! Try again!</span>}
         </div>
       </div>
     </div>

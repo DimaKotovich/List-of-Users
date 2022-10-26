@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import './Filter.scss';
-import { useDispatch,useSelector } from 'react-redux';
-import { filterGender } from '../../api/api';
+import { Slider } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { filterGender, searchName, filter, filterAge} from '../../Redux/redux';
 
 export const Filter = () => {
 
   const [gender,setGender] = useState();
-  const [value,setValue] = useState(2);
+  const [value,setValue] = useState([1,25]);
 
   const dispatch = useDispatch();
 
-  const users = useSelector(
-    state => state.users.users
-  );
-
   const handleChange = (event) => {
-    setValue(event.target.value);
-    console.log(event)
+    if (event.target.value === 'custom sort') {
+      setGender();
+    }
+
+    dispatch(filter(event.target.value));
   }
 
+  const change = (event,data) => {
+    setValue(data);
+    dispatch(filterAge(data));
+
+  }
+
+  const seacrhChange = (event) => {
+    const search = event.target.value.trim();
+    dispatch(searchName(search));
+  }
 
   return (
     <div className='filter'>
@@ -29,25 +39,22 @@ export const Filter = () => {
           <input
             className='filter__search--input'
             type="text" 
-            // required onChange={change} 
-            // value={search}
+            required onChange={seacrhChange}
             placeholder='Search by name'
           />
         </div>
 
         <div className='filter__age'>
           <span className='filter__search--title'>Age</span>
-          <input
+          <Slider
             className='filter__age--slider'
-            type="range"
-            defaultValue={value}
-            onChange={handleChange}
             min={1}
             max={100}
             step={1}
-          >
-          </input>
-          <span className='filter__age--text'>{value === 2 ? value : `1 - ${value}`}</span>
+            value={value}
+            onChange={change}
+          />
+          <span className='filter__age--text'>{`${value[0]}-${value[1]}`}</span>
         </div>
 
         <div className='filter__gender'>
@@ -67,8 +74,12 @@ export const Filter = () => {
         </div>
 
         <div className='filter__sort'>
-          <span className='filter__search--title'>Gender</span>
-          <select className='filter__sort--select'>
+          <span className='filter__search--title'>Sort By</span>
+          <select 
+            className='filter__sort--select'
+            onChange={handleChange}
+          >
+            <option value="custom sort">Custom sort</option>
             <option value="name">Name</option>
             <option value="date">Date of birth</option>
             <option value="city">City</option>

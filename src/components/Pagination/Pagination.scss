@@ -1,0 +1,45 @@
+.list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  &__item {
+    &--link {
+      cursor: pointer;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 18px;
+      gap: 3px;
+
+      width: 37px;
+      height: 37px;
+
+      background: #FFFFFF;
+      border: 1px solid #121212;
+      border-radius: 24px;
+
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 21px;
+      text-align: center;
+      color: #333333;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    &--active {
+      background: #ECD3FA;
+      border: 1px solid #52228C;
+      color: #52228C;
+    }
+  }
+}

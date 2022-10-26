@@ -5,7 +5,7 @@ import App from './App';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './api/api';
+import userReducer from './Redux/redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

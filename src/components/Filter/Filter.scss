@@ -61,33 +61,10 @@
     gap: 16px;
 
     &--slider {
-      -webkit-appearance: none;
-      width: 307px;
-      height: 3px;
-      border-radius: 2px;
-      background-color: #52228C;;
-      outline: none;
-      opacity: 1;
-      --webkit-transition: 0.2s;
-      transition: opacity 0.2s;
-      ::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #3a7bec;
-        cursor: pointer;
-        border: none;
-      }
-      ::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #3a7bec;
-        cursor: pointer;
-        border: none;
-      }
+      width: 307px!important;
+      height: 3px!important;
+      padding: 0!important;
+      color: #52228C!important;
     }
 
     &--text {
