@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk,createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 
 const URL = `https://randomuser.me/api/?page=1`
 
@@ -10,27 +10,6 @@ export const getUsers = createAsyncThunk (
     return json.results;
   }
 );
-
-export const currentUser = createAction('CURRENTUSER');
-export const filterGender = createAction('FILTERGENDER');
-export const searchName = createAction('SEARCHNAME');
-export const filter = createAction('FILTER');
-export const filterAge = createAction('FILTERAGE');
-
-export const changeName = createAction('CHANGENAME');
-export const changeEmail = createAction('CHANGEEMAIL');
-export const changePhone = createAction('CHANGEPHONE');
-export const changeCity = createAction('CHANGECITY');
-export const changeLocation = createAction('CHANGELOCATION');
-export const changeDate = createAction('CHANGEDATE');
-
-export const setPage = createAction('SETPAGE');
-export const changeUserList = createAction('CHANGEUSERLIST');
-export const paginate = createAction('PAGINATE');
-
-export const deleteUser = createAction('DELETEUSER');
-export const editUser = createAction('EDITEUSER');
-export const changeUsers = createAction('CHANGEUSERS');
 
 export const userSlice = createSlice({
   name: 'users',
@@ -81,17 +60,19 @@ export const userSlice = createSlice({
     },
     [getUsers.rejected]: (state) => {
       state.isLoading = false;
-    },
-    [currentUser]: (state, action) => {
+    }
+  },
+  reducers: {
+    currentUser(state, action) {
       state.currentUsers = action.payload;
     },
-    [filterGender]: (state, action) => {
+    filterGender(state, action) {
       state.filterUsers = state.usersData.filter(function (e) {
         return e.gender === action.payload.toLowerCase();
       });
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
     },
-    [filter]: (state,action) => {
+    filter(state,action) {
       state.sortBy = action.payload;
       if (state.sortBy === 'city') {
         state.filterUsers = state.filterUsers.sort(function (a, b) {
@@ -121,37 +102,37 @@ export const userSlice = createSlice({
         });
         state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
       } else if (state.sortBy === 'custom sort') {
-        state.users = state.usersData;
         state.filterUsers = state.usersData;
+        state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
       } 
     },
-    [filterAge]: (state,action) => {
+    filterAge(state,action) {
       state.filterUsers = state.usersData.filter(function (e) {
         return e.dob.age > action.payload[0] && e.dob.age < action.payload[1]
       });
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
     },
-    [searchName]: (state,action) => {
+    searchName(state,action) {
       state.users = state.filterUsers.filter(function (e) {
         return e.newName.trim().slice(0,action.payload.length).toLowerCase() === action.payload.toLowerCase();
       });
     },
-    [changeName]: (state,action) => {
+    changeName(state,action) {
       state.currentUsers.newName = action.payload;
     },
-    [changeEmail]: (state,action) => {
+    changeEmail(state,action) {
       state.currentUsers.email = action.payload;
     },
-    [changePhone]: (state,action) => {
+    changePhone(state,action) {
       state.currentUsers.phone = action.payload;
     },
-    [changeCity]: (state,action) => {
+    changeCity(state,action) {
       state.currentUsers.location.city = action.payload;
     },
-    [changeLocation]: (state,action) => {
+    changeLocation(state,action) {
       state.currentUsers.street = action.payload;
     },
-    [changeDate]: (state,action) => {
+    changeDate(state,action) {
       if (action.payload.length !== 10) {
         state.errorDate = true;
       } else if (state.month[action.payload.slice(3,5)] === undefined) {
@@ -161,25 +142,12 @@ export const userSlice = createSlice({
         state.errorDate = false;
       }
     },
-    [deleteUser]: (state,action) => {
+    deleteUser(state,action) {
       state.users = state.users.filter(function (e) {
         return e.login.username !== action.payload;
       });
     },
-    [editUser]: (state) => {
-      state.users = state.users.map(el => {
-        if (el.login.username === state.currentUsers.login.username) {
-          return {...el,
-            newName: state.currentUsers.newName,
-            email: state.currentUsers.email,
-            phone: state.currentUsers.phone,
-            location: {...el.location, city: state.currentUsers.location.city},
-            street: state.currentUsers.street,
-            newDate: state.currentUsers.newDate
-          }
-        }
-        return el;
-      })
+    editUser(state) {
       state.filterUsers = state.filterUsers.map(el => {
         if (el.login.username === state.currentUsers.login.username) {
           return {...el,
@@ -208,18 +176,18 @@ export const userSlice = createSlice({
       })
       state.errorDate = false;
     },
-    [setPage]: (state,action) => {
+    setPage(state,action) {
       state.currentPage = action.payload;
     },
-    [changeUserList]: (state, action) => {
+    changeUserList(state, action) {
       state.userList = action.payload;
     },
-    [paginate]: (state) => {
+    paginate(state) {
       state.lastCityIndex = state.currentPage * state.userList;
       state.firstCityIndex = state.lastCityIndex - state.userList;
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
     },
-    [changeUsers]: (state,action) => {
+    changeUsers(state,action) {
       state.filterUsers = state.filterUsers.map(c => {
         if (c.index === action.payload.index) {
           return {...c, index: state.currentUsers.index}
@@ -237,10 +205,21 @@ export const userSlice = createSlice({
         }
       })
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
-    },
-  },
-  reducers: undefined
+    }
+  }
 }
 );
 
 export default userSlice.reducer;
+export const { 
+  setPage, changeUserList,
+  paginate, changeUsers,
+  editUser, deleteUser,
+  changeDate, changeLocation,
+  changeCity, changePhone,
+  changeEmail, changeName,
+  filterAge, filter,
+  searchName, filterGender,
+  currentUser
+} = userSlice.actions
+
