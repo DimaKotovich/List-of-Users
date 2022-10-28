@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './Pagination.scss'
 import classNames from 'classnames';
 import { useDispatch,useSelector } from 'react-redux';
-import { setPage, getUsers, paginate } from '../../Redux/redux';
+import { setPage, getUsers, paginate, filterGender } from '../../Redux/redux';
 
 export const Pagination = () => {
   const pageNumbers = [];
@@ -13,8 +13,11 @@ export const Pagination = () => {
     state => state.users.userList
   );
 
-  const users = useSelector(
-    state => state.users.users
+  const filterUsers = useSelector(
+    state => state.users.filterUsers
+  );
+  const usersData = useSelector(
+    state => state.users.usersData
   );
 
   const currentPage = useSelector(
@@ -25,12 +28,15 @@ export const Pagination = () => {
     dispatch(setPage(number));
     dispatch(paginate());
   }
-
-  const data = () => {
-    if (users.length === 0) {
-      dispatch(getUsers(userList));
-    } else if (users.length < userList) {
-      dispatch(getUsers(userList - users.length));
+  const data = async() => {
+    let lastCityIndex = currentPage * userList;
+    let firstCityIndex = lastCityIndex - userList;
+    if (usersData.slice(firstCityIndex, lastCityIndex).length === 0) {
+      await dispatch(getUsers(userList));
+      setTimeout(dispatch(paginate()),);
+    } else if (usersData.slice(firstCityIndex, lastCityIndex).length === 0 < userList) {
+      await dispatch(getUsers(userList - usersData.slice(firstCityIndex, lastCityIndex).length === 0));
+      setTimeout(dispatch(paginate()),);
     }
   }
 

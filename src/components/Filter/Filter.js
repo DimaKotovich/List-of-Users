@@ -1,33 +1,36 @@
 import React, {useState } from 'react';
 import './Filter.scss';
 import { Slider } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { filterGender, searchName, filter, filterAge} from '../../Redux/redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { filterGender, filter} from '../../Redux/redux';
 
 export const Filter = () => {
 
-  const [gender,setGender] = useState();
   const [value,setValue] = useState([1,25]);
 
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
-    if (event.target.value === 'custom sort') {
-      setGender();
-    }
+  const gender = useSelector(
+    state => state.users.gender
+  );
 
+  const age = useSelector(
+    state => state.users.age
+  );
+
+  const handleChange = (event) => {
     dispatch(filter(event.target.value));
   }
 
   const change = (event,data) => {
     setValue(data);
-    dispatch(filterAge(data));
+    dispatch(filterGender(['age',data]));
 
   }
 
   const seacrhChange = (event) => {
     const search = event.target.value.trim();
-    dispatch(searchName(search));
+    dispatch(filterGender(['name',search]));
   }
 
   return (
@@ -51,10 +54,10 @@ export const Filter = () => {
             min={1}
             max={100}
             step={1}
-            value={value}
+            value={age}
             onChange={change}
           />
-          <span className='filter__age--text'>{`${value[0]}-${value[1]}`}</span>
+          <span className='filter__age--text'>{`${age[0]}-${age[1]}`}</span>
         </div>
 
         <div className='filter__gender'>
@@ -62,12 +65,12 @@ export const Filter = () => {
           <div className='buttons'>
             <button
               className={gender === 'Male' ? 'buttons__active' : 'buttons__nonActive'}
-              onClick={(() => {dispatch(filterGender('Male')); setGender('Male'); })}>
+              onClick={(() => {dispatch(filterGender(['gender','Male']))})}>
                 Male
             </button>
             <button 
               className={gender === 'Female' ? 'buttons__active' : 'buttons__nonActive'}
-              onClick={(() => {dispatch(filterGender('Female')); setGender('Female'); })}>
+              onClick={(() => {dispatch(filterGender(['gender','Female']))})}>
                 Female
             </button>
           </div>

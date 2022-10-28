@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './UserEdit.scss';
 import { useDispatch,useSelector } from 'react-redux';
 import { deleteUser, changeName, changeEmail,changePhone } from '../../Redux/redux';
-import { editUser, changeCity, changeLocation,changeDate } from '../../Redux/redux';
+import { editUser, changeCity, changeLocation,changeDate, filterGender } from '../../Redux/redux';
 
 
 
@@ -33,6 +33,12 @@ export const UserEdit = () => {
     state => state.users.errorDate
   );
 
+
+  const saveChange = () => {
+    dispatch(editUser());
+    dispatch(filterGender([]));
+  }
+
   const day = user.newDate.slice(0,2);
   const month = user.newDate.slice(3,5);
   const year = user.newDate.slice(6,10);
@@ -45,7 +51,7 @@ export const UserEdit = () => {
         >
           <button
             className='userEdit__button'
-            onClick={() => {dispatch(editUser())}}
+            onClick={saveChange}
           >
             {'< Back'}
           </button>
