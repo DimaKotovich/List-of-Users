@@ -16,10 +16,6 @@ export const TodoList = () => {
     state => state.users.sortBy
   );
 
-  const filterError = useSelector(
-    state => state.users.filterError
-  );
-
   const handleChange = (event) => {
     dispatch(changeUserList(event.target.value));
     dispatch(paginate());
@@ -37,7 +33,7 @@ export const TodoList = () => {
             </li>
           ))}
         </ul>
-        <span>{filterError === true && 'Not one of the users does not match your filters!'}</span>
+        <span>{users.length === 0 && 'Not one of the users does not match your filters!'}</span>
         <div className='todoList__pagination'>
           <Pagination/>
           <select onChange={handleChange} className='todoList__pagination--select'>

@@ -38,10 +38,9 @@ export const userSlice = createSlice({
     firstCityIndex: 0,
     sortBy: 'custom sort',
     gender: '',
-    age: [1,35],
+    age: [1,100],
     name: '',
     errorDate: false,
-    filterError: false,
     isLoading: false,
   },
   extraReducers: {
@@ -95,9 +94,6 @@ export const userSlice = createSlice({
         }
       });
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
-      state.filterError = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex).length === 0
-      ? true
-      : false;
     },
     filter(state,action) {
       state.sortBy = action.payload;
@@ -111,7 +107,7 @@ export const userSlice = createSlice({
           }
           return 0;
         });
-        state.users = state.users.slice(state.firstCityIndex, state.lastCityIndex);
+        state.users = state.users;
       } else if (state.sortBy === 'name') {
         state.users = state.users.sort(function (a, b) {
           if (a.name.first > b.name.first) {
@@ -122,15 +118,15 @@ export const userSlice = createSlice({
           }
           return 0;
         });
-        state.users = state.users.slice(state.firstCityIndex, state.lastCityIndex);
+        state.users = state.users;
       } else if (state.sortBy === 'date') {
         state.users = state.users.sort(function(a, b){
           return b.dob.age - a.dob.age
         });
-        state.users = state.users.slice(state.firstCityIndex, state.lastCityIndex);
+        state.users = state.users;
       } else if (state.sortBy === 'custom sort') {
         state.users = state.usersData;
-        state.users = state.usersData.slice(state.firstCityIndex, state.lastCityIndex);
+        state.users = state.usersData;
         state.gender = '';
       } 
     },
@@ -212,9 +208,6 @@ export const userSlice = createSlice({
         }
       });
       state.users = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex);
-      state.filterError = state.filterUsers.slice(state.firstCityIndex, state.lastCityIndex).length === 0
-      ? true
-      : false;
     },
     changeUsers(state,action) {
       state.filterUsers = state.filterUsers.map(c => {

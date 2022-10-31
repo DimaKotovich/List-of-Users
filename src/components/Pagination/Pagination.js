@@ -28,15 +28,14 @@ export const Pagination = () => {
     dispatch(setPage(number));
     dispatch(paginate());
   }
-  const data = async() => {
+  const data = () => {
     let lastCityIndex = currentPage * userList;
     let firstCityIndex = lastCityIndex - userList;
-    if (usersData.slice(firstCityIndex, lastCityIndex).length === 0) {
-      await dispatch(getUsers(userList));
-      setTimeout(dispatch(paginate()),);
-    } else if (usersData.slice(firstCityIndex, lastCityIndex).length === 0 < userList) {
-      await dispatch(getUsers(userList - usersData.slice(firstCityIndex, lastCityIndex).length === 0));
-      setTimeout(dispatch(paginate()),);
+
+
+    if (filterUsers.length < userList * currentPage) {
+      let count = userList * currentPage - filterUsers.length;
+      dispatch(getUsers(count));
     }
   }
 
